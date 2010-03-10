@@ -14,8 +14,6 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	libmenu-cache-devel
 BuildRequires:	intltool
 BuildRequires:	gettext
-BuildRequires:	perl
-BuildRequires:	perl-XML-Parser
 BuildRequires:	gtk+2-devel
 BuildRequires:	libgvfs-devel
 
@@ -31,10 +29,10 @@ filesystems supported by gvfs.
 Group:		File tools
 Summary:	%{name} developement files
 Provides:	%{name}-devel = %{version}-%{release}
-Requires:	%{name} >= %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n %{name}-devel
-This package contains header files needed if you wish to build applications
+This package contains header files needed if you want to build applications
 based on %{name}.
 
 %prep
