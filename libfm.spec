@@ -1,9 +1,13 @@
+%define major 0
+%define libname %mklibname fm %major
+%define develname %mklibname -d fm
+
 %define prerel alpha
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
 Version:	0.1.5
-Release:	%mkrel -c %prerel 1
+Release:	%mkrel -c %prerel 2
 License:	GPLv2
 Group:		File tools
 Source0:	%{name}-%{version}.tar.gz
@@ -15,7 +19,6 @@ BuildRequires:	libmenu-cache-devel
 BuildRequires:	intltool
 BuildRequires:	gettext
 BuildRequires:	gtk+2-devel
-BuildRequires:	libgvfs-devel
 
 %description
 LibFM is a GIO-based library used to develop file manager-like programs. It is
@@ -24,16 +27,23 @@ related operations such as copy & paste, drag & drop, file associations or
 thumbnails support. By utilizing glib/gio and gvfs, libfm can access remote 
 filesystems supported by gvfs.
 
+%package -n %libname
+Group:		File tools
+Summary:	%{name} library package
+Requires:	%{name} >= %{version}
 
-%package -n %{name}-devel
+%description -n %libname
+%summary.
+
+%package -n %develname
 Group:		File tools
 Summary:	%{name} developement files
 Provides:	%{name}-devel = %{version}-%{release}
 Requires:	%{name} = %{version}-%{release}
 
-%description -n %{name}-devel
-This package contains header files needed if you want to build applications
-based on %{name}.
+%description -n %develname
+This package contains header files needed when building applications based on
+%{name}.
 
 %prep
 %setup -q -n %{name}-%{version}
@@ -65,15 +75,18 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/xdg/libfm/libfm.conf
 %config(noreplace) %{_sysconfdir}/xdg/libfm/pref-apps.conf
 %{_bindir}/libfm-pref-apps
-%{_libdir}/libfm-gtk.so.0*
-%{_libdir}/libfm.so.0*
-%{_libdir}/gio/modules/libgiofm.so
 %{_libdir}/%{name}/gnome-terminal
 %{_datadir}/%{name}/ui/*
 %{_datadir}/applications/libfm-pref-apps.desktop
 %{_datadir}/mime/packages/%{name}.xml
 
-%files -n %{name}-devel
+%files -n %libname
+%defattr(-,root,root)
+%{_libdir}/libfm-gtk.so.%{major}*
+%{_libdir}/libfm.so.%{major}*
+%{_libdir}/gio/modules/libgiofm.so
+
+%files -n %develname
 %defattr(-,root,root)
 %{_includedir}/%{name}/%{name}/*.h
 %{_libdir}/libfm-gtk.so
