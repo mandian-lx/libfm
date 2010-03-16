@@ -13,7 +13,7 @@ License:	GPLv2
 Group:		File tools
 Source0:	%{name}-%{git}.tar.gz
 Patch0:		libfm-0.1.5-string-format.patch
-Patch1:		libfm-0.1.5-set-default-terminal.patch
+Patch1:		libfm-0.1.5-set-cutomization.patch
 Url:		http://pcmanfm.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	libmenu-cache-devel
