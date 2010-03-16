@@ -2,15 +2,16 @@
 %define libname %mklibname fm %major
 %define develname %mklibname -d fm
 
+%define git git20100316
 %define prerel alpha
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
 Version:	0.1.5
-Release:	%mkrel -c %prerel 2
+Release:	%mkrel -c %prerel 3
 License:	GPLv2
 Group:		File tools
-Source0:	%{name}-%{version}.tar.gz
+Source0:	%{name}-%{git}.tar.gz
 Patch0:		libfm-0.1.5-string-format.patch
 Patch1:		libfm-0.1.5-set-default-terminal.patch
 Url:		http://pcmanfm.sourceforge.net/
@@ -46,11 +47,13 @@ This package contains header files needed when building applications based on
 %{name}.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}
 %patch0 -p0 -b .format
 %patch1 -p0
 
 %build
+./autogen.sh
+
 %configure2_5x --disable-static
 # remove rpaths
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -70,6 +73,22 @@ find %{buildroot} -name '*.la' | xargs rm -f
 %clean
 rm -rf %{buildroot}
 
+%post -n %libname
+%if %_lib != lib
+ %{_bindir}/gio-querymodules-64 %{_libdir}/gio/modules
+%else
+ %{_bindir}/gio-querymodules-32 %{_libdir}/gio/modules
+%endif
+
+%postun -n %libname
+if [ "$1" = "0" ]; then
+%if %_lib != lib
+ %{_bindir}/gio-querymodules-64 %{_libdir}/gio/modules
+%else
+ %{_bindir}/gio-querymodules-32 %{_libdir}/gio/modules
+%endif
+fi
+
 %files -f %{name}.lang
 %defattr(-,root,root)
 %config(noreplace) %{_sysconfdir}/xdg/libfm/libfm.conf
@@ -77,6 +96,7 @@ rm -rf %{buildroot}
 %{_bindir}/libfm-pref-apps
 %{_libdir}/%{name}/gnome-terminal
 %{_datadir}/%{name}/ui/*
+%{_datadir}/%{name}/archivers.list
 %{_datadir}/applications/libfm-pref-apps.desktop
 %{_datadir}/mime/packages/%{name}.xml
 
