@@ -7,7 +7,7 @@
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
 Version:	0.1.9
-Release:	%mkrel -c %prerel 1
+Release:	%mkrel -c %prerel 2
 License:	GPLv2
 Group:		File tools
 Source0:	%{name}-%{version}.tar.gz
@@ -92,9 +92,11 @@ fi
 %config(noreplace) %{_sysconfdir}/xdg/libfm/pref-apps.conf
 %{_bindir}/libfm-pref-apps
 %{_libdir}/gio/modules/libgiofm.so
+%dir %{_libdir}/%{name}
 %{_libdir}/%{name}/gnome-terminal
-%{_datadir}/%{name}/ui/*
+%dir %{_datadir}/%{name}
 %{_datadir}/%{name}/archivers.list
+%{_datadir}/%{name}/ui/*
 %{_datadir}/applications/libfm-pref-apps.desktop
 %{_datadir}/mime/packages/%{name}.xml
 
@@ -105,6 +107,8 @@ fi
 
 %files -n %develname
 %defattr(-,root,root)
+%dir %{_includedir}/%{name}
+%dir %{_includedir}/%{name}/%{name}
 %{_includedir}/%{name}/%{name}/*.h
 %{_libdir}/libfm-gtk.so
 %{_libdir}/libfm.so
