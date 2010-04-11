@@ -3,14 +3,15 @@
 %define develname %mklibname -d fm
 
 %define prerel beta
+%define git git20100411
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
 Version:	0.1.9
-Release:	%mkrel -c %prerel 2
+Release:	%mkrel -c %prerel 4
 License:	GPLv2
 Group:		File tools
-Source0:	%{name}-%{version}.tar.gz
+Source0:	%{name}-%{version}-%{git}.tar.gz
 Patch0:		libfm-0.1.9-string-format.patch
 Patch1:		libfm-0.1.5-set-cutomization.patch
 Url:		http://pcmanfm.sourceforge.net/
@@ -46,11 +47,12 @@ This package contains header files needed when building applications based on
 %{name}.
 
 %prep
-%setup -q
+%setup -q -n %{name}
 %patch0 -p0 -b .format
 %patch1 -p0
 
 %build
+./autogen.sh
 %configure2_5x --disable-static
 # remove rpaths
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
