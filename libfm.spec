@@ -73,14 +73,14 @@ find %{buildroot} -name '*.la' | xargs rm -f
 %clean
 rm -rf %{buildroot}
 
-%post -n %libname
+%post
 %if %_lib != lib
  %{_bindir}/gio-querymodules-64 %{_libdir}/gio/modules
 %else
  %{_bindir}/gio-querymodules-32 %{_libdir}/gio/modules
 %endif
 
-%postun -n %libname
+%postun
 if [ "$1" = "0" ]; then
 %if %_lib != lib
  %{_bindir}/gio-querymodules-64 %{_libdir}/gio/modules
