@@ -3,19 +3,20 @@
 %define develname %mklibname -d fm
 
 %define prerel beta2
+%define git git20100426
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
 Version:	0.1.10
-Release:	%mkrel -c %prerel 1
+Release:	%mkrel -c %prerel 2
 License:	GPLv2
 Group:		File tools
-Source0:	%{name}-%{version}.tar.gz
+Source0:	%{name}-%{version}-%git.tar.gz
 Patch0:		libfm-0.1.9-string-format.patch
 Patch1:		libfm-0.1.5-set-cutomization.patch
 Url:		http://pcmanfm.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires:	libmenu-cache-devel
+BuildRequires:	libmenu-cache-devel >= 0.3.2
 BuildRequires:	intltool
 BuildRequires:	gettext
 BuildRequires:	gtk+2-devel
@@ -48,12 +49,10 @@ This package contains header files needed when building applications based on
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p0 -b .format
-%patch1 -p0
+%patch1 -p0 -b .customization
 
 %build
-#./autogen.sh
-# for some odd reason not running autoreconf gives some "undefined reference" errors
-autoreconf -fi
+./autogen.sh
 %configure2_5x --disable-static
 # remove rpaths
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
