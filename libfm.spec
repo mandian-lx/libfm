@@ -2,17 +2,19 @@
 %define libname %mklibname fm %major
 %define develname %mklibname -d fm
 
-%define prerel beta3
+%define prerel rc1
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
-Version:	0.1.11
+Version:	0.1.12
 Release:	%mkrel -c %prerel 1
 License:	GPLv2
 Group:		File tools
 Source0:	%{name}-%{version}.tar.gz
-Patch0:		libfm-0.1.9-string-format.patch
-Patch1:		libfm-0.1.5-set-cutomization.patch
+Patch0:		libfm-0.1.5-set-cutomization.patch
+# patches from upstream:
+Patch101:	libfm-0.1.12-fix-sort-by-name.patch
+Patch102:	libfm-0.1.12-fix-crach-when-showing-properties-in-root-dir.patch
 Url:		http://pcmanfm.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	libmenu-cache-devel >= 0.3.2
@@ -47,11 +49,14 @@ This package contains header files needed when building applications based on
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch0 -p0 -b .format
-%patch1 -p0 -b .customization
+%patch0 -p0 -b .customization
+
+%patch101 -p1 -b .fix-sorting
+%patch102 -p1 -b .fix-crash-properties
 
 %build
 #./autogen.sh
+%define Werror_cflags %nil
 %configure2_5x --disable-static
 # remove rpaths
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
