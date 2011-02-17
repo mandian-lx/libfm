@@ -27,6 +27,7 @@ BuildRequires:	libmenu-cache-devel >= 0.3.2
 BuildRequires:	intltool
 BuildRequires:	gettext
 BuildRequires:	gtk+2-devel
+BuildRequires:	gtk-doc
 
 %description
 LibFM is a GIO-based library used to develop file manager-like programs. It is
