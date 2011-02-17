@@ -1,15 +1,26 @@
+%define git 1
 %define major 0
 %define libname %mklibname fm %major
 %define develname %mklibname -d fm
+%define prerel 61443ac
+%define ver 0.1.15
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
-Version:	0.1.14
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv2
 Group:		File tools
+%if %git
+Version:	%{ver}.git%{prerel}
+Source0:	%{name}-%{prerel}.tar.gz
+%else
+Version:	%{ver}
 Source0:	%{name}-%{version}.tar.gz
+%endif
 Patch0:		libfm-0.1.5-set-cutomization.patch
+# patches from upstream:
+#Patch1: 	libfm-ru.po.patch
+
 Url:		http://pcmanfm.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	libmenu-cache-devel >= 0.3.2
@@ -27,7 +38,7 @@ filesystems supported by gvfs.
 %package -n %libname
 Group:		File tools
 Summary:	%{name} library package
-Requires:	%{name} >= %{version}
+Requires:	%{name} = %{version}
 
 %description -n %libname
 %summary.
@@ -43,12 +54,28 @@ This package contains header files needed when building applications based on
 %{name}.
 
 %prep
-%setup -q -n %{name}-%{version}
+%if %git
+%setup -q -n %{name}-%{prerel}
+%else
+%setup -q -n %{name}
+%endif
 %patch0 -p0 -b .customization
 
+#%patch101 -p1
+#%patch102 -p1
+#%patch103 -p1
+#%patch104 -p1
+
+#%patch1 -p0
+
 %build
+./autogen.sh
 %define Werror_cflags %nil
-%configure2_5x --disable-static
+%configure --enable-udisks
+# remove rpaths
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+
 %make
 
 %install
@@ -85,8 +112,9 @@ fi
 %config(noreplace) %{_sysconfdir}/xdg/libfm/pref-apps.conf
 %{_bindir}/libfm-pref-apps
 %{_libdir}/gio/modules/libgiofm.so
-%dir %{_libdir}/%{name}
-%{_libdir}/%{name}/gnome-terminal
+%{_libdir}/gio/modules/libgiofm.a
+#dir %{_libdir}/%{name}
+#{_libdir}/%{name}/gnome-terminal
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/archivers.list
 %{_datadir}/%{name}/ui/*
@@ -103,8 +131,9 @@ fi
 %dir %{_includedir}/%{name}
 %dir %{_includedir}/%{name}/%{name}
 %{_includedir}/%{name}/%{name}/*.h
-%{_datadir}/gtk-doc/html/libfm
 %{_libdir}/libfm-gtk.so
 %{_libdir}/libfm.so
+%{_libdir}/libfm-gtk.a
+%{_libdir}/libfm.a
 %{_libdir}/pkgconfig/libfm-gtk.pc
 %{_libdir}/pkgconfig/libfm.pc
