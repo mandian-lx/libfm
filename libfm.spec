@@ -28,7 +28,7 @@ BuildRequires:	intltool
 BuildRequires:	gettext
 BuildRequires:	gtk+2-devel
 BuildRequires:	gtk-doc
-BuildRequires:	%{_lib}dbus-glib-1_2
+BuildRequires:	%{_lib}dbus-glib-1_2-devel
 
 %description
 LibFM is a GIO-based library used to develop file manager-like programs. It is
