@@ -28,6 +28,7 @@ BuildRequires:	intltool
 BuildRequires:	gettext
 BuildRequires:	gtk+2-devel
 BuildRequires:	gtk-doc
+BuildRequires:	dbus-glib-1
 
 %description
 LibFM is a GIO-based library used to develop file manager-like programs. It is
@@ -61,13 +62,6 @@ This package contains header files needed when building applications based on
 %setup -q -n %{name}
 %endif
 %patch0 -p0 -b .customization
-
-#%patch101 -p1
-#%patch102 -p1
-#%patch103 -p1
-#%patch104 -p1
-
-#%patch1 -p0
 
 %build
 ./autogen.sh
