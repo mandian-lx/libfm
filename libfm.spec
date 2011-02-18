@@ -3,6 +3,7 @@
 %define libname %mklibname fm %major
 %define develname %mklibname -d fm
 %define prerel 197c7e1
+%define gitday 20111902
 %define ver 0.1.15
 
 Summary:	GIO-based library for file manager-like programs
@@ -11,7 +12,7 @@ Release:	%mkrel 3
 License:	GPLv2
 Group:		File tools
 %if %git
-Version:	%{ver}.git%{prerel}
+Version:	%{ver}.git%{gitday}
 Source0:	%{name}-%{prerel}.tar.gz
 %else
 Version:	%{ver}
