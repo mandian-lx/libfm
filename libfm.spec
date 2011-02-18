@@ -2,12 +2,12 @@
 %define major 0
 %define libname %mklibname fm %major
 %define develname %mklibname -d fm
-%define prerel 61443ac
+%define prerel 197c7e1
 %define ver 0.1.15
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
-Release:	%mkrel 2
+Release:	%mkrel 1
 License:	GPLv2
 Group:		File tools
 %if %git
