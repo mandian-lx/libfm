@@ -67,10 +67,10 @@ This package contains header files needed when building applications based on
 %build
 ./autogen.sh
 %define Werror_cflags %nil
-%configure --enable-udisks
+%configure2_5x --enable-udisks
 # remove rpaths
-sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
-sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+#sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+#sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
 %make
 
