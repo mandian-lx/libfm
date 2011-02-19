@@ -67,10 +67,10 @@ This package contains header files needed when building applications based on
 %build
 ./autogen.sh
 %define Werror_cflags %nil
-%configure2_5x --enable-static=no --enable-udisks
+%configure --enable-udisks
 # remove rpaths
-#sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
-#sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
 %make
 
@@ -107,8 +107,7 @@ fi
 %config(noreplace) %{_sysconfdir}/xdg/libfm/libfm.conf
 %config(noreplace) %{_sysconfdir}/xdg/libfm/pref-apps.conf
 %{_bindir}/libfm-pref-apps
-%{_libdir}/gio/modules/libgiofm.so
-%{_libdir}/gio/modules/libgiofm.a
+%{_libdir}/gio/modules/*
 #dir %{_libdir}/%{name}
 #{_libdir}/%{name}/gnome-terminal
 %dir %{_datadir}/%{name}
