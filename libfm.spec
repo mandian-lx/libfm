@@ -87,13 +87,17 @@ find %{buildroot} -name '*.la' | xargs rm -f
 rm -rf %{buildroot}
 
 %post
-%if %_lib != lib
- %{_bindir}/gio-querymodules-64 %{_libdir}/gio/modules
-%else
- %{_bindir}/gio-querymodules-32 %{_libdir}/gio/modules
+%if %mdkversion < 201100
+
+	%if %_lib != lib
+		%{_bindir}/gio-querymodules-64 %{_libdir}/gio/modules
+	%else
+		%{_bindir}/gio-querymodules-32 %{_libdir}/gio/modules
+	%endif
 %endif
 
 %postun
+%if %mdkversion < 201100
 if [ "$1" = "0" ]; then
 %if %_lib != lib
  %{_bindir}/gio-querymodules-64 %{_libdir}/gio/modules
@@ -101,13 +105,16 @@ if [ "$1" = "0" ]; then
  %{_bindir}/gio-querymodules-32 %{_libdir}/gio/modules
 %endif
 fi
+%endif
 
 %files -f %{name}.lang
 %defattr(-,root,root)
 %config(noreplace) %{_sysconfdir}/xdg/libfm/libfm.conf
 %config(noreplace) %{_sysconfdir}/xdg/libfm/pref-apps.conf
 %{_bindir}/libfm-pref-apps
+%if %mdkversion < 201100
 %{_libdir}/gio/modules/*
+%endif
 #dir %{_libdir}/%{name}
 #{_libdir}/%{name}/gnome-terminal
 %dir %{_datadir}/%{name}
