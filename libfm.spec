@@ -2,8 +2,8 @@
 %define major 0
 %define libname %mklibname fm %major
 %define develname %mklibname -d fm
-%define prerel cd79d62
-%define gitday 20111905
+%define prerel 318ba70
+%define gitday 20111906
 %define ver 0.1.15
 
 Summary:	GIO-based library for file manager-like programs
