@@ -8,7 +8,7 @@
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPLv2
 Group:		File tools
 %if %git
