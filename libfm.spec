@@ -1,5 +1,5 @@
 %define git 1
-%define major 0
+%define major 1.0.0
 %define libname %mklibname fm %major
 %define develname %mklibname -d fm
 %define prerel d22b41f
@@ -65,6 +65,9 @@ This package contains header files needed when building applications based on
 %patch0 -p0 -b .customization
 
 %build
+
+#hack for git release
+mkdir m4
 ./autogen.sh
 %define Werror_cflags %nil
 %configure --enable-udisks
@@ -127,6 +130,8 @@ fi
 %defattr(-,root,root)
 %{_libdir}/libfm-gtk.so.%{major}*
 %{_libdir}/libfm.so.%{major}*
+%{_libdir}/libfm.so.1
+%{_libdir}/libfm-gtk.so.1
 
 %files -n %develname
 %defattr(-,root,root)
