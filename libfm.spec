@@ -2,9 +2,9 @@
 %define major 1.0.0
 %define libname %mklibname fm %major
 %define develname %mklibname -d fm
-%define prerel d22b41f
-%define gitday 20112008
-%define ver 0.1.15
+%define prerel a075bcf
+%define gitday 20111108
+%define ver 0.1.16
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
@@ -67,7 +67,7 @@ This package contains header files needed when building applications based on
 %build
 
 #hack for git release
-mkdir m4
+#mkdir m4
 ./autogen.sh
 %define Werror_cflags %nil
 %configure --enable-udisks
