@@ -67,6 +67,7 @@ This package contains header files needed when building applications based on
 %if %git
 ./autogen.sh
 %endif
+autoreconf -fi
 %define Werror_cflags %nil
 %configure --enable-udisks
 # remove rpaths
