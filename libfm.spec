@@ -1,10 +1,10 @@
 %define git 0
-%define major 1
+%define major 3
 %define libname %mklibname fm %{major}
 %define develname %mklibname -d fm
 %define prerel bcf60a4
 %define gitday 20112007
-%define ver 0.1.17
+%define ver 1.0.1
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
@@ -17,10 +17,9 @@ Version:	%{ver}.git%{gitday}
 Source0:	%{name}-%{prerel}.tar.gz
 %else
 Version:	%{ver}
-Source0:	%{name}-%{version}.tar.gz
+Source0:	http://downloads.sourceforge.net/project/pcmanfm/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/libfm%20%28required%20by%20PCManFM%29/%{name}-%{version}.tar.gz
 %endif
 Patch0:		libfm-0.1.5-set-cutomization.patch
-Patch1:		libfm-0.1.17-automake1.12.patch
 BuildRequires:	libmenu-cache-devel >= 0.3.2
 BuildRequires:	intltool
 BuildRequires:	gettext
@@ -60,12 +59,12 @@ This package contains header files needed when building applications based on
 %setup -q
 %endif
 %patch0 -p0 -b .customization
-%patch1 -p1 -b .automake1.12
 
 %build
 %if %{git}
 ./autogen.sh
 %endif
+sed -i "s:-Werror::" configure.ac || die
 autoreconf -fi
 %define Werror_cflags %nil
 %configure --enable-udisks
@@ -83,9 +82,6 @@ rm -rf %{buildroot}
 find %{buildroot} -name '*.la' | xargs rm -f
 
 %find_lang %{name}
-
-%clean
-rm -rf %{buildroot}
 
 %post
 %if %{mdvver} < 201100
@@ -115,11 +111,13 @@ fi
 %{_libdir}/gio/modules/*
 %endif
 %dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/ui
 %{_datadir}/%{name}/archivers.list
 %{_datadir}/%{name}/ui/*
 %{_datadir}/applications/libfm-pref-apps.desktop
 %{_datadir}/mime/packages/%{name}.xml
 %{_datadir}/gtk-doc/html/*
+%{_mandir}/man1/libfm-pref-apps.1.*
 
 %files -n %{libname}
 %{_libdir}/libfm-gtk.so.%{major}*
