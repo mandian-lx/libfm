@@ -8,7 +8,7 @@
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
-Release:	%mkrel 1
+Release:	1
 License:	GPLv2
 Group:		File tools
 Url:		http://pcmanfm.sourceforge.net/
@@ -17,15 +17,20 @@ Version:	%{ver}.git%{gitday}
 Source0:	%{name}-%{prerel}.tar.gz
 %else
 Version:	%{ver}
-Source0:	http://downloads.sourceforge.net/project/pcmanfm/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/libfm%20%28required%20by%20PCManFM%29/%{name}-%{version}.tar.gz
+Source0:	http://dfn.dl.sourceforge.net/sourceforge/pcmanfm/%name-%version.tar.gz
 %endif
 Patch0:		libfm-0.1.5-set-cutomization.patch
+Patch1:		libfm-0.1.17-automake1.12.patch
+# patches from upstream:
+
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	libmenu-cache-devel >= 0.3.2
 BuildRequires:	intltool
 BuildRequires:	gettext
-BuildRequires:	gtk+2-devel
 BuildRequires:	gtk-doc
-BuildRequires:	dbus-glib-devel
+BuildRequires:	pkgconfig(dbus-glib-1)
+BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	vala
 
 %description
 LibFM is a GIO-based library used to develop file manager-like programs. It is
@@ -83,33 +88,10 @@ find %{buildroot} -name '*.la' | xargs rm -f
 
 %find_lang %{name}
 
-%post
-%if %{mdvver} < 201100
-	%if %{_lib} != lib
-		%{_bindir}/gio-querymodules-64 %{_libdir}/gio/modules
-	%else
-		%{_bindir}/gio-querymodules-32 %{_libdir}/gio/modules
-	%endif
-%endif
-
-%postun
-%if %{mdvver} < 201100
-if [ "$1" = "0" ]; then
-%if %{_lib} != lib
- %{_bindir}/gio-querymodules-64 %{_libdir}/gio/modules
-%else
- %{_bindir}/gio-querymodules-32 %{_libdir}/gio/modules
-%endif
-fi
-%endif
-
 %files -f %{name}.lang
 %config(noreplace) %{_sysconfdir}/xdg/libfm/libfm.conf
 %config(noreplace) %{_sysconfdir}/xdg/libfm/pref-apps.conf
 %{_bindir}/libfm-pref-apps
-%if %{mdvver} < 201100
-%{_libdir}/gio/modules/*
-%endif
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/ui
 %{_datadir}/%{name}/archivers.list
@@ -133,4 +115,3 @@ fi
 %{_libdir}/libfm.a
 %{_libdir}/pkgconfig/libfm-gtk.pc
 %{_libdir}/pkgconfig/libfm.pc
-
