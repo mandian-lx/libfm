@@ -1,5 +1,5 @@
---- data/libfm.conf.orig	2010-03-16 17:52:57.000000000 +0200
-+++ data/libfm.conf	2010-03-16 19:48:15.000000000 +0200
+--- a/data/libfm.conf.orig	2010-03-16 17:52:57.000000000 +0200
++++ b/data/libfm.conf	2010-03-16 19:48:15.000000000 +0200
 @@ -4,6 +4,8 @@
  confirm_del=1
  thumbnail_local=1
