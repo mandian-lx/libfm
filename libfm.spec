@@ -9,7 +9,7 @@
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
-Release:	5
+Release:	6
 License:	GPLv2
 Group:		File tools
 Url:		http://pcmanfm.sourceforge.net/
@@ -66,7 +66,7 @@ This package contains header files needed when building applications based on
 %else
 %setup -q
 %endif
-
+mkdir m4
 %apply_patches
 
 %build
