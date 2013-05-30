@@ -1,37 +1,40 @@
-%define git 0
-%define major 3
-%define libname %mklibname fm %{major}
-%define develname %mklibname -d fm
-%define prerel bcf60a4
-%define gitday 20112007
-%define ver 1.1.0
-%define devel_rel 1.0
+%define Werror_cflags %nil
+
+%define api	1.0
+%define major	3
+%define libname	%mklibname fm %{major}
+%define libgtk	%mklibname fm-gtk %{major}
+%define devname	%mklibname -d fm
+%define git	0
+%define prerel	bcf60a4
+%define gitday	20112007
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
-Release:	6
+Version:	1.1.0
 License:	GPLv2
 Group:		File tools
 Url:		http://pcmanfm.sourceforge.net/
 %if %{git}
-Version:	%{ver}.git%{gitday}
+Release:	0.%{gitday}.1
 Source0:	%{name}-%{prerel}.tar.gz
 %else
-Version:	%{ver}
-Source0:	http://dfn.dl.sourceforge.net/sourceforge/pcmanfm/%name-%version.tar.gz
+Release:	7
+Source0:	http://dfn.dl.sourceforge.net/sourceforge/pcmanfm/%{name}-%{version}.tar.gz
 %endif
 Patch0:		libfm-0.1.5-set-cutomization.patch
 #Patch1:		libfm-0.1.17-automake1.12.patch
 # patches from upstream:
 Patch100:	libfm-1.1.0-smb-symlink.patch
 
-BuildRequires:	libmenu-cache-devel >= 0.3.2
-BuildRequires:	intltool
 BuildRequires:	gettext
 BuildRequires:	gtk-doc
+BuildRequires:	intltool
+BuildRequires:	vala
 BuildRequires:	pkgconfig(dbus-glib-1)
 BuildRequires:	pkgconfig(gtk+-2.0)
-BuildRequires:	vala
+BuildRequires:	pkgconfig(libexif)
+BuildRequires:	pkgconfig(libmenu-cache)
 Requires:	lxshortcut
 
 %description
@@ -42,41 +45,52 @@ thumbnails support. By utilizing glib/gio and gvfs, libfm can access remote
 filesystems supported by gvfs.
 
 %package -n %{libname}
-Group:		File tools
 Summary:	%{name} library package
-Requires:	%{name} = %{version}
+Group:		File tools
+Suggests:	%{name} = %{version}-%{release}
 
 %description -n %{libname}
 %{summary}.
 
-%package -n %{develname}
+%package -n %{libgtk}
+Summary:	%{name} library package
 Group:		File tools
-Summary:	%{name} developement files
-Provides:	%{name}-devel = %{version}-%{release}
-Requires:	%{libname} = %{version}
-Obsoletes:	%{name}-%{develname} < %{version}
+Conflicts:	%{_lib}fm3 < 1.1.0-7
 
-%description -n %{develname}
+%description -n %{libgtk}
+%{summary}.
+
+%package -n %{devname}
+Summary:	%{name} developement files
+Group:		File tools
+Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libgtk} = %{version}-%{release}
+Provides:	%{name}-devel = %{version}-%{release}
+
+%description -n %{devname}
 This package contains header files needed when building applications based on
 %{name}.
 
 %prep
 %if %{git}
-%setup -q -n %{name}-%{prerel}
+%setup -qn %{name}-%{prerel}
 %else
 %setup -q
 %endif
 mkdir m4
 %apply_patches
 
-%build
 %if %{git}
 ./autogen.sh
 %endif
 sed -i "s:-Werror::" configure.ac || die
 autoreconf -fi
-%define Werror_cflags %nil
-%configure --enable-udisks  --with-gtk=2
+
+%build
+%configure2_5x \
+	--disable-static \
+	--enable-udisks \
+	--with-gtk=2
 # remove rpaths
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -84,18 +98,13 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %make
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std
 
 #some hack for avoid upgrade error
 #copy all in libfm-1.0 in includedir to libfm instead symlink, rather early it is true
 rm -f %{buildroot}%{_includedir}/%{name}
 mkdir -p %{buildroot}%{_includedir}/%{name}
-cp -f %{buildroot}%{_includedir}/%{name}-%{devel_rel}/* %{buildroot}%{_includedir}/%{name}/
-
-
-# don't ship .la
-find %{buildroot} -name '*.la' | xargs rm -f
+cp -f %{buildroot}%{_includedir}/%{name}-%{api}/* %{buildroot}%{_includedir}/%{name}/
 
 %find_lang %{name}
 
@@ -109,22 +118,23 @@ find %{buildroot} -name '*.la' | xargs rm -f
 %{_datadir}/%{name}/ui/*
 %{_datadir}/applications/libfm-pref-apps.desktop
 %{_datadir}/mime/packages/%{name}.xml
-#{_datadir}/gtk-doc/html/*
 %{_mandir}/man1/libfm-pref-apps.1.*
 
 %files -n %{libname}
-%{_libdir}/libfm-gtk.so.%{major}*
 %{_libdir}/libfm.so.%{major}*
 
-%files -n %{develname}
+%files -n %{libgtk}
+%{_libdir}/libfm-gtk.so.%{major}*
+
+%files -n %{devname}
+#doc #{_datadir}/gtk-doc/html/*
 %dir %{_includedir}/%{name}
-%dir %{_includedir}/%{name}-%{devel_rel}
+%dir %{_includedir}/%{name}-%{api}
 %{_includedir}/%{name}/*.h
-%{_includedir}/%{name}-%{devel_rel}/*.h
+%{_includedir}/%{name}-%{api}/*.h
 %{_libdir}/libfm-gtk.so
 %{_libdir}/libfm.so
-%{_libdir}/libfm-gtk.a
-%{_libdir}/libfm.a
 %{_libdir}/pkgconfig/libfm-gtk.pc
 %{_libdir}/pkgconfig/libfm-gtk3.pc
 %{_libdir}/pkgconfig/libfm.pc
+
