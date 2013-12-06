@@ -19,7 +19,7 @@ Url:		http://pcmanfm.sourceforge.net/
 Release:	0.%{gitday}.1
 Source0:	%{name}-%{prerel}.tar.gz
 %else
-Release:	9
+Release:	10
 Source0:	http://dfn.dl.sourceforge.net/sourceforge/pcmanfm/%{name}-%{version}.tar.gz
 %endif
 Patch0:		libfm-0.1.5-set-cutomization.patch
