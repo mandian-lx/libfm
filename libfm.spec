@@ -38,6 +38,11 @@ BuildRequires:	vala
 BuildRequires:	pkgconfig(dbus-glib-1)
 BuildRequires:	pkgconfig(libexif)
 BuildRequires:	pkgconfig(libmenu-cache)
+BuildRequires:	pkgconfig(gio-unix-2.0) >= 2.26.0
+BuildRequires:	pkgconfig(glib-2.0) >= 2.26.0
+BuildRequires:	pkgconfig(gthread-2.0)
+BuildRequires:	pkgconfig(gobject-2.0)
+BuildRequires:	pkgconfig(pango) >= 1.16.0
 Requires:	lxshortcut
 
 %description
