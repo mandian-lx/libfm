@@ -8,7 +8,7 @@
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
 Version:	1.2.0
-Release:	3
+Release:	4
 License:	GPLv2
 Group:		File tools
 Url:		http://pcmanfm.sourceforge.net/
