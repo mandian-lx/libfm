@@ -1,5 +1,5 @@
 %define api	1.0
-%define major	4
+%define major	1
 %define libname %mklibname fm %{major}
 %define elibname %mklibname fm-extra %{major}
 %define	glibname %mklibname fm-gtk %{major}
@@ -7,8 +7,8 @@
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
-Version:	1.2.0
-Release:	4
+Version:	1.2.1
+Release:	1
 License:	GPLv2
 Group:		File tools
 Url:		http://pcmanfm.sourceforge.net/

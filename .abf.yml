@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   libfm-1.2.0.tar.xz: f4da9f73111364291501bfc752c50d43a17f17cf
+sources:
+  libfm-1.2.1.tar.xz: 919da9d93bcff60f999470c6cb3326a1c7632f02
