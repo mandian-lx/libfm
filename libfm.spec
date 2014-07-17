@@ -1,5 +1,5 @@
 %define api	1.0
-%define major	1
+%define major	4
 %define libname %mklibname fm %{major}
 %define elibname %mklibname fm-extra %{major}
 %define	glibname %mklibname fm-gtk %{major}
