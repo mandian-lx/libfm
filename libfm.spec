@@ -14,7 +14,7 @@ Group:		File tools
 Url:		http://pcmanfm.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/pcmanfm/%{name}-%{version}.tar.xz
 Patch0:		libfm-0.1.5-set-cutomization.patch
-Patch1:		libfm-1.2.0-conditioned-pkgconfig-files.patch
+#Patch1:		libfm-1.2.0-conditioned-pkgconfig-files.patch
 BuildRequires:	gettext
 BuildRequires:	gtk-doc
 BuildRequires:	intltool
