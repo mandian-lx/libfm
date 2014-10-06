@@ -11,10 +11,10 @@ Summary:	GIO-based library for file manager-like programs
 Name:		libfm
 Version:	1.2.2
 %if %{git}
-Release:	0.%{git}.1
+Release:	0.%{git}.2
 Source0:	%{name}-%{git}.tar.xz
 %else
-Release:	1
+Release:	2
 Source0:	http://downloads.sourceforge.net/pcmanfm/%{name}-%{version}.tar.xz
 %endif
 License:	GPLv2
@@ -86,6 +86,7 @@ Summary:	%{name} developement files
 Group:		File tools
 Requires:	%{libname} = %{version}-%{release}
 Requires:	%{elibname} = %{version}-%{release}
+Requires:	%{glibname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 
 %description -n %{devname}
