@@ -4,17 +4,17 @@
 %define elibname %mklibname fm-extra %{major}
 %define	glibname %mklibname fm-gtk %{major}
 %define devname %mklibname -d fm
-%define git 20140802
+%define git 0
 %bcond_without gtk
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
-Version:	1.2.2
+Version:	1.2.3
 %if %{git}
-Release:	0.%{git}.2
+Release:	0.%{git}.1
 Source0:	%{name}-%{git}.tar.xz
 %else
-Release:	2
+Release:	1
 Source0:	http://downloads.sourceforge.net/pcmanfm/%{name}-%{version}.tar.xz
 %endif
 License:	GPLv2
@@ -170,6 +170,7 @@ cp -f %{buildroot}%{_includedir}/%{name}-%{api}/* %{buildroot}%{_includedir}/%{n
 %{_libdir}/libfm.so
 %{_libdir}/libfm-extra.so
 %{_libdir}/pkgconfig/libfm.pc
+%{_libdir}/pkgconfig/libfm-extra.pc
 %if %{with gtk}
 %{_libdir}/libfm-gtk.so
 %{_libdir}/pkgconfig/libfm-gtk.pc
