@@ -14,7 +14,7 @@ Version:	1.2.3
 Release:	0.%{git}.1
 Source0:	%{name}-%{git}.tar.xz
 %else
-Release:	2
+Release:	3
 Source0:	http://downloads.sourceforge.net/pcmanfm/%{name}-%{version}.tar.xz
 %endif
 License:	GPLv2
@@ -39,7 +39,7 @@ BuildRequires:	pkgconfig(pango) >= 1.16.0
 BuildRequires:	pkgconfig(gtk+-2.0) >= 2.18.0
 %endif
 %if %{without gtk}
-Obsoletes:	lxshortcut
+Obsoletes:	lxshortcut <= 1.2.3-2
 %endif
 
 %description
