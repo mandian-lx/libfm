@@ -1,8 +1,8 @@
-%define api	1.0
-%define major	4
+%define api 1.0
+%define major 4
 %define libname %mklibname fm %{major}
 %define elibname %mklibname fm-extra %{major}
-%define	glibname %mklibname fm-gtk %{major}
+%define glibname %mklibname fm-gtk %{major}
 %define devname %mklibname -d fm
 %define git 0
 %bcond_without gtk
@@ -14,7 +14,7 @@ Version:	1.2.3
 Release:	0.%{git}.1
 Source0:	%{name}-%{git}.tar.xz
 %else
-Release:	3
+Release:	4
 Source0:	http://downloads.sourceforge.net/pcmanfm/%{name}-%{version}.tar.xz
 %endif
 License:	GPLv2
@@ -60,7 +60,7 @@ gtk related parts of the %{name} library
 %package -n %{libname}
 Summary:	%{name} library package
 Group:		File tools
-Suggests:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n %{libname}
 %{summary}.
@@ -113,9 +113,9 @@ with freedesktop.org Desktop Entry spec.
 
 %build
 %configure \
-	--enable-udisks \
+    --enable-udisks \
 %if %{without gtk}
-	--without-gtk
+    --without-gtk
 %endif
 
 %make
