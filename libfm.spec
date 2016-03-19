@@ -14,7 +14,7 @@ Version:	1.2.3
 Release:	0.%{git}.1
 Source0:	%{name}-%{git}.tar.xz
 %else
-Release:	7
+Release:	8
 Source0:	http://downloads.sourceforge.net/pcmanfm/%{name}-%{version}.tar.xz
 %endif
 License:	GPLv2
