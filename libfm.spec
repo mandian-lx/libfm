@@ -9,21 +9,19 @@
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
-Version:	1.2.3
+Version:	1.2.4
 %if %{git}
 Release:	0.%{git}.1
 Source0:	%{name}-%{git}.tar.xz
 %else
-Release:	8
-Source0:	http://downloads.sourceforge.net/pcmanfm/%{name}-%{version}.tar.xz
+Release:	1
+Source0:	http://downloads.sourceforge.net/pcmanfm/%{name}-%{version}.tar.gz
 %endif
 License:	GPLv2
 Group:		File tools
 Url:		http://pcmanfm.sourceforge.net/
 Patch0:		libfm-0.1.5-set-cutomization.patch
 #Patch1:		libfm-1.2.0-conditioned-pkgconfig-files.patch
-# (tpg) https://issues.openmandriva.org/show_bug.cgi?id=1128
-Patch2:		0001-fm-app-info-do_launch-Don-t-double-fork.patch
 BuildRequires:	gettext
 BuildRequires:	gtk-doc
 BuildRequires:	intltool
