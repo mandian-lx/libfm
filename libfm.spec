@@ -9,19 +9,18 @@
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
-Version:	1.2.4
+Version:	1.2.5
 %if %{git}
 Release:	0.%{git}.1
 Source0:	%{name}-%{git}.tar.xz
 %else
 Release:	1
-Source0:	http://downloads.sourceforge.net/pcmanfm/%{name}-%{version}.tar.gz
+Source0:	http://downloads.sourceforge.net/pcmanfm/%{name}-%{version}.tar.xz
 %endif
 License:	GPLv2
 Group:		File tools
 Url:		http://pcmanfm.sourceforge.net/
 Patch0:		libfm-0.1.5-set-cutomization.patch
-#Patch1:		libfm-1.2.0-conditioned-pkgconfig-files.patch
 BuildRequires:	gettext
 BuildRequires:	gtk-doc
 BuildRequires:	intltool
