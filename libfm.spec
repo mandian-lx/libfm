@@ -39,9 +39,6 @@ BuildRequires:	pkgconfig(pango) >= 1.16.0
 %if %{with gtk}
 BuildRequires:	pkgconfig(gtk+-2.0) >= 2.18.0
 %endif
-%if %{without gtk}
-Obsoletes:	lxshortcut <= 1.2.3-2
-%endif
 
 %description
 Lightweight X11 Desktop Environment project (a.k.a LXDE) aimed to provide a
@@ -70,15 +67,14 @@ functionality.
 
 #---------------------------------------------------------------------------
 
+%if %{with gtk}
 %package gtk
 Summary:	gtk related parts of the %{name} library
 Group:		File tools
-Requires:	lxshortcut = %{EVRD}
 
 %description gtk
 gtk related parts of the %{name} library
 
-%if %{with gtk}
 %files gtk
 %{_bindir}/libfm-pref-apps
 %{_mandir}/man1/libfm-pref-apps.1*
@@ -117,6 +113,7 @@ Requires:	%{libname} = %{EVRD}
 
 #---------------------------------------------------------------------------
 
+%if %{with gtk}
 %package -n %{glibname}
 Summary:	%{name} extra library package
 Group:		File tools
@@ -125,7 +122,6 @@ Requires:	%{libname} = %{EVRD}
 %description -n %{glibname}
 %{summary}
 
-%if %{with gtk}
 %files -n %{glibname}
 %{_libdir}/libfm-gtk.so.%{major}*
 %endif
@@ -145,7 +141,7 @@ This package contains header files needed when building applications based on
 %{name}.
 
 %files -n %{devname}
-#doc #{_datadir}/gtk-doc/html/*
+#doc % {_datadir}/gtk-doc/html/*
 %dir %{_includedir}/%{name}
 %dir %{_includedir}/%{name}-%{api}
 %{_includedir}/%{name}/*.h
@@ -191,11 +187,11 @@ with freedesktop.org Desktop Entry spec.
 
 %build
 %configure \
-    --enable-udisks \
+	--enable-udisks \
 %if %{without gtk}
-    --without-gtk
+	--without-gtk \
 %endif
-
+	%{nil}
 %make
 
 %install
