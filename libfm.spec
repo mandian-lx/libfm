@@ -37,7 +37,7 @@ BuildRequires:	pkgconfig(libexif)
 BuildRequires:	pkgconfig(libmenu-cache) >= 0.3.2
 BuildRequires:	pkgconfig(pango) >= 1.16.0
 %if %{with gtk}
-BuildRequires:	pkgconfig(gtk+-2.0) >= 2.18.0
+BuildRequires:	pkgconfig(gtk+-3.0)
 %endif
 
 %description
