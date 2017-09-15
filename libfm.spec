@@ -2,11 +2,11 @@
 %define major 4
 %define libname %mklibname fm %{major}
 %define elibname %mklibname fm-extra %{major}
-%define glibname %mklibname fm-gtk %{major}
+%define glibname %mklibname fm-gtk3 %{major}
 %define devname %mklibname -d fm
 %define git 0
 
-%bcond_without gtk
+%bcond_without gtk3
 
 Summary:	GIO-based library for file manager-like programs
 Name:		libfm
@@ -36,7 +36,7 @@ BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(libexif)
 BuildRequires:	pkgconfig(libmenu-cache) >= 0.3.2
 BuildRequires:	pkgconfig(pango) >= 1.16.0
-%if %{with gtk}
+%if %{with gtk3}
 BuildRequires:	pkgconfig(gtk+-3.0)
 %endif
 
@@ -50,7 +50,7 @@ component can be used independently with few dependencies. This makes
 porting LXDE to different distributions and platforms easier.
 
 A glib/gio-based library providing some file management utilities and
-related-widgets missing in gtk+/glib. This is the core of PCManFM. The
+related-widgets missing in GTK+/glib. This is the core of PCManFM. The
 library is desktop independent (not LXDE specific) and has clean API.
 Itcan be used to develop other applications requiring file management
 functionality.
@@ -67,15 +67,15 @@ functionality.
 
 #---------------------------------------------------------------------------
 
-%if %{with gtk}
-%package gtk
+%if %{with gtk3}
+%package gtk3
 Summary:	gtk related parts of the %{name} library
 Group:		File tools
 
-%description gtk
-gtk related parts of the %{name} library
+%description gtk3
+GTK+ related parts of the %{name} library.
 
-%files gtk
+%files gtk3
 %{_bindir}/libfm-pref-apps
 %{_mandir}/man1/libfm-pref-apps.1*
 %{_datadir}/applications/libfm-pref-apps.desktop
@@ -93,7 +93,7 @@ Group:		File tools
 Requires:	%{name} = %{version}-%{release}
 
 %description -n %{libname}
-%{summary}.
+Shared library for %{name} library.
 
 %files -n %{libname}
 %{_libdir}/libfm.so.%{major}*
@@ -106,24 +106,24 @@ Group:		File tools
 Requires:	%{libname} = %{EVRD}
 
 %description -n %{elibname}
-%{summary}
+Extra shared library for %{name} library.
 
 %files -n %{elibname}
 %{_libdir}/libfm-extra.so.%{major}*
 
 #---------------------------------------------------------------------------
 
-%if %{with gtk}
+%if %{with gtk3}
 %package -n %{glibname}
 Summary:	%{name} extra library package
 Group:		File tools
 Requires:	%{libname} = %{EVRD}
 
 %description -n %{glibname}
-%{summary}
+GTK+ module for %{name} library.
 
 %files -n %{glibname}
-%{_libdir}/libfm-gtk.so.%{major}*
+%{_libdir}/libfm-gtk3.so.%{major}*
 %endif
 
 #---------------------------------------------------------------------------
@@ -141,7 +141,7 @@ This package contains header files needed when building applications based on
 %{name}.
 
 %files -n %{devname}
-#doc % {_datadir}/gtk-doc/html/*
+%doc %{_datadir}/gtk-doc/html/*
 %dir %{_includedir}/%{name}
 %dir %{_includedir}/%{name}-%{api}
 %{_includedir}/%{name}/*.h
@@ -150,9 +150,9 @@ This package contains header files needed when building applications based on
 %{_libdir}/libfm-extra.so
 %{_libdir}/pkgconfig/libfm.pc
 %{_libdir}/pkgconfig/libfm-extra.pc
-%if %{with gtk}
-%{_libdir}/libfm-gtk.so
-%{_libdir}/pkgconfig/libfm-gtk.pc
+%if %{with gtk3}
+%{_libdir}/libfm-gtk3.so
+%{_libdir}/pkgconfig/libfm-gtk3.pc
 %endif
 
 #---------------------------------------------------------------------------
@@ -165,7 +165,7 @@ Group:		Graphical desktop/Other
 LXShortcut is a small program used to edit application shortcuts created
 with freedesktop.org Desktop Entry spec.
 
-%if %{with gtk}
+%if %{with gtk3}
 %files -n lxshortcut
 %{_bindir}/lxshortcut
 %{_datadir}/applications/lxshortcut.desktop
@@ -187,8 +187,12 @@ with freedesktop.org Desktop Entry spec.
 
 %build
 %configure \
+	--enable-actions \
+	--enable-gtk-doc \
 	--enable-udisks \
-%if %{without gtk}
+%if %{with gtk3}
+	--with-gtk=3 \
+%else
 	--without-gtk \
 %endif
 	%{nil}
